@@ -94,7 +94,6 @@ function uploadPic(){
             }
             if (progress==100){
                 location.reload();
-    
             }
           }
         )
