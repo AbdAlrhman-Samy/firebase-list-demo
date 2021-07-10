@@ -4,6 +4,7 @@ const imagesRef = storageRef.child('images');
 
 let myList = document.getElementById("my-list");
 let myForm = document.getElementById("my-form");
+let showCase = document.getElementById("showcase");
 let image = document.getElementById("image");
 
 function createListItems(doc) {
@@ -77,9 +78,49 @@ image.addEventListener("change",(e)=>{
 
 function uploadPic(){
     for(let file of files){
-        storageRef.child('images/' + file.name).put(file);
+        let uploadTask = storageRef.child('images/' + file.name).put(file);
+        uploadTask.on(firebase.storage.TaskEvent.STATE_CHANGED, (snapshot)=>
+        {
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            let progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            console.log('Upload is ' + progress + '% done');
+            switch (snapshot.state) {
+              case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+              case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+            if (progress==100){
+                location.reload();
+    
+            }
+          }
+        )
+        
     }
 }
 
-let hulkRef = imagesRef.child('hulk.jpg');
-hulkRef.getDownloadURL()
+function createImageTag(url) {
+    let img = document.createElement('img');
+    let col = document.createElement('div');
+    img.setAttribute('src', url);
+    img.setAttribute('width', '300px');
+
+    col.classList.add('col-md');
+    col.appendChild(img)
+
+    showCase.appendChild(col);
+}
+
+
+// Find all the prefixes and items.
+ imagesRef.listAll()
+  .then((res) => {
+    res.items.forEach((itemRef) => {
+        itemRef.getDownloadURL().then((url) => {
+            createImageTag(url);
+          })
+    });
+  })
