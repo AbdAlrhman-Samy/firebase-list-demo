@@ -1,7 +1,10 @@
 const avengers = db.collection("Avengers");
+const storageRef = firebase.storage().ref();
+const imagesRef = storageRef.child('images');
 
 let myList = document.getElementById("my-list");
 let myForm = document.getElementById("my-form");
+let image = document.getElementById("image");
 
 function createListItems(doc) {
 
@@ -37,26 +40,21 @@ function createListItems(doc) {
 }
 
 avengers.orderBy('Name').onSnapshot(snapshot => {
+
     let changes = snapshot.docChanges();
+
     changes.forEach(change => {
         console.log(change.doc.data());
+
         if(change.type == 'added'){
             createListItems(change.doc);
+            
         } else if (change.type == 'removed'){
             let li = myList.querySelector('[data-id=' + change.doc.id + ']');
             myList.removeChild(li);
         }
     });
 });
-
-// avengers.get().then(
-//     (snapshot)=>{
-//         snapshot.docs.forEach((doc)=>{
-//             console.log(doc.data());
-//             createListItems(doc)
-//         })
-//     }
-// )
 
 myForm.addEventListener('submit', (e)=>{
     e.preventDefault();
@@ -70,3 +68,18 @@ myForm.addEventListener('submit', (e)=>{
     myForm.age.value = '';
 
 })
+
+
+let files = [];
+image.addEventListener("change",(e)=>{
+    files = e.target.files;
+})
+
+function uploadPic(){
+    for(let file of files){
+        storageRef.child('images/' + file.name).put(file);
+    }
+}
+
+let hulkRef = imagesRef.child('hulk.jpg');
+hulkRef.getDownloadURL()

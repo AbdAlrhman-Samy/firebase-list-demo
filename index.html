@@ -13,35 +13,58 @@
 
 <body>
 
-    <h1 class="text-center display-1 mb-5 p-3 w-100 bg-secondary text-white">The Avengers</h1>
+    <h1 class="text-center display-1 mb-5 p-3 w-100 bg-dark text-white">The Avengers</h1>
 
 
-    <div class="container text-center my-5">
-        <ul class="list-group mb-5" id="my-list">
-        </ul>
+    <section>
+        <div class="container text-center my-5">
+            <ul class="list-group mb-5" id="my-list">
+            </ul>
 
-        <form id="my-form">
-            <div class="row">
-                <div class="col-md mb-3">
-                  <input type="text" name="name" class="form-control" placeholder="Name" required>
+            <form id="my-form">
+                <div class="row">
+                    <div class="col-md mb-3">
+                        <input type="text" name="name" class="form-control" placeholder="Name">
+                    </div>
+                    <div class="col">
+                        <input type="text" name="alias" class="form-control" placeholder="Alias">
+                    </div>
+                    <div class="col">
+                        <input type="number" name="age" class="form-control" placeholder="Age" min="10" max="100">
+                    </div>
+                </div>
+                <button class="btn btn-lg btn-primary mt-3" type="submit">Add</button>
+            </form>
+        </div>
+    </section>
+
+    <section class="bg-dark text-white p-5">
+        <div class="container">
+
+            <div class="my-3 d-md-flex justify-content-center">
+                <input type="file" class="my-2" id="image" multiple>
+                <button class="btn btn-lg btn-primary my-2" onclick="uploadPic()">Upload</button>
+            </div>
+
+
+            <div class="row g-3 text-center">
+                <div class="col">
+                    <img src="https://picsum.photos/300" alt="">
                 </div>
                 <div class="col">
-                  <input type="text" name="alias" class="form-control" placeholder="Alias" required>
+                    <img src="https://picsum.photos/300" alt="">
                 </div>
-                <div class="col">
-                    <input type="number" name="age" class="form-control" placeholder="Age" min="10" max="100" required>
-                  </div>
-              </div>
-              <button class="btn btn-lg btn-primary" type="submit">Add</button>
-        </form>
-    </div>
 
+            </div>
+        </div>
+    </section>
 
 
 
 
     <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.7.0/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.7.1/firebase-storage.js"></script>
     <script src="firebase.js"></script>
     <script src="app.js"></script>
 
